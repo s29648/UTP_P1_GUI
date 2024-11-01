@@ -63,9 +63,6 @@ public class Main extends Application {
     private Lighting tokenLighting;
     private StackPane gridContainer;
 
-    //TODO:
-    //revise project structure
-    //rewrite junit
 
     @Override
     public void start(Stage primaryStage) {
@@ -309,12 +306,12 @@ public class Main extends Application {
         overlay = null;
         playAgainButton = null;
 
-        //add new
         renderGrid();
         changeStatusLable(Optional.of(getCurrentPlayer()), Optional.empty(), Optional.empty());
         keybInputEnabled = true;
         selectedColumn = 0;
         updateKSelectedColumn();
+
         resetGame();
     }
 

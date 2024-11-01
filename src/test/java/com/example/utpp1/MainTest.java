@@ -96,22 +96,140 @@ public class MainTest {
     }
 
     @Test
-    void testWinConditionVertical() {
-
+    // test if player who connected 4 in vertical direction wins
+    void testWinVertically() {
         for (int row = 0; row < 4; row++) {
+            //player 1 drops in column 0
             Circle tokenPlayer1 = new Circle();
-            game.dropToken(0, tokenPlayer1); // Player 1 drops in column 0
-
-            // Since the player automatically switches, Player 2 has the next move.
-            // To avoid Player 2 interfering in the same column, we let Player 2 drop in another column.
+            game.dropToken(0, tokenPlayer1);
+            //player 2 drops in column 1
             Circle tokenPlayer2 = new Circle();
-            game.dropToken(1, tokenPlayer2); // Player 2 drops in column 1
+            game.dropToken(1, tokenPlayer2);
         }
 
-        // After 4 drops by Player 1 in column 0, check if Player 1 has won
         int winner = game.checkWinner();
         Assertions.assertEquals(1, winner);
     }
+
+    // 6| [ ][ ][ ][ ][ ][ ][ ]
+    // 5| [ ][ ][ ][ ][ ][ ][ ]
+    // 4| [ ][ ][ ][1][ ][ ][ ]
+    // 3| [ ][ ][1][2][ ][ ][ ]
+    // 2| [2][1][1][2][ ][ ][ ]
+    // 1| [1][2][2][1][ ][ ][ ]
+    //_________________________
+    //     1  2  3  4  5  6  7
+
+
+    @Test
+    // test if player who connected 4 in diagonal direction wins
+    void testWinDiagonally() {
+        // 1
+        game.dropToken(0, new Circle());
+        // 2
+        game.dropToken(1, new Circle());
+        // 1
+        game.dropToken(1, new Circle());
+        // 2
+        game.dropToken(2, new Circle());
+        // 1
+        game.dropToken(2, new Circle());
+        // 2
+        game.dropToken(0, new Circle());
+        // 1
+        game.dropToken(2, new Circle());
+        // 2
+        game.dropToken(3, new Circle());
+        // 1
+        game.dropToken(3, new Circle());
+        // 2
+        game.dropToken(3, new Circle());
+        // 1
+        game.dropToken(3, new Circle());
+
+        int winner = game.checkWinner();
+        Assertions.assertEquals(1, winner);
+    }
+    // 6| [ ][ ][ ][ ][ ][ ][ ]
+    // 5| [ ][ ][ ][ ][ ][ ][ ]
+    // 4| [ ][ ][ ][1][ ][ ][ ]
+    // 3| [ ][ ][ ][2][1][ ][ ]
+    // 2| [ ][ ][ ][1][2][1][2]
+    // 1| [ ][ ][ ][2][1][2][1]
+    //_________________________
+    //     1  2  3  4  5  6  7
+
+    @Test
+    void testWinDiagonallyBackwards() {
+        // row 1
+        game.dropToken(3, new Circle());
+        game.dropToken(4, new Circle());
+        game.dropToken(5, new Circle());
+        game.dropToken(6, new Circle());
+        // row 2
+        game.dropToken(3, new Circle());
+        game.dropToken(4, new Circle());
+        game.dropToken(5, new Circle());
+        game.dropToken(6, new Circle());
+        // row 3
+        game.dropToken(3, new Circle());
+        game.dropToken(4, new Circle());
+        // row 4
+        game.dropToken(3, new Circle());
+
+        int winner = game.checkWinner();
+        Assertions.assertEquals(1, winner);
+    }
+
+
+    // 6| [1][1][1][2][1][1][1]
+    // 5| [1][1][1][2][1][1][1]
+    // 4| [2][2][2][1][2][2][2]
+    // 3| [1][1][1][2][1][1][1]
+    // 2| [2][2][2][1][2][2][2]
+    // 1| [1][1][1][2][1][1][1]
+    //_________________________
+    //     1  2  3  4  5  6  7
+
+
+    @Test
+    void testADraw() {
+        // column 1
+        for (int row = 0; row < 6; row++) {
+            game.dropToken(0, new Circle());
+        }
+        // column 3
+        for (int row = 0; row < 6; row++) {
+            game.dropToken(2, new Circle());
+        }
+        // column 5
+        for (int row = 0; row < 6; row++) {
+            game.dropToken(4, new Circle());
+        }
+        // column 7
+        for (int row = 0; row < 6; row++) {
+            game.dropToken(6, new Circle());
+        }
+        // col 6
+        game.dropToken(5, new Circle());
+        //col 4
+        for (int row = 0; row < 6; row++) {
+            game.dropToken(3, new Circle());
+        }
+        // col 6
+        for (int row = 0; row < 5; row++) {
+            game.dropToken(5, new Circle());
+        }
+        //col 2
+        for (int row = 0; row < 6; row++) {
+            game.dropToken(1, new Circle());
+        }
+
+
+        boolean draw = game.isADraw();
+        Assertions.assertTrue(draw);
+    }
+
 
 
     @AfterEach
