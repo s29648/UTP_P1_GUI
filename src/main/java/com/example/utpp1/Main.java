@@ -51,8 +51,8 @@ public class Main extends Application {
     private int selectedColumn = 0;
     private boolean keybInputEnabled = true;
     // Pane - allows absolute positioning
-    Pane gridPane = new Pane();;
-    Pane tokenPane = new Pane();;
+    Pane gridPane = new Pane();
+    Pane tokenPane = new Pane();
     private Rectangle keyboardSelectedColumn;
     private BorderPane root;
     private double slotSize;
@@ -155,7 +155,7 @@ public class Main extends Application {
                     token.setRadius(slotSize / 2 - 12);
                     token.setCenterX(position.y * slotSize + slotSize / 2);
                     token.setCenterY(position.x * slotSize + slotSize / 2);
-                };
+                }
             }
         });
 
@@ -229,14 +229,14 @@ public class Main extends Application {
 
 
             tokenPane.getChildren().add(token);
-            animationOfFalling(token, row, column);
+            animationOfFalling(token, row);
 
         } else {
             changeStatusLable(Optional.empty(), Optional.empty(), Optional.of(column));
         }
     }
 
-    private void animationOfFalling(Circle token, int row, int column) {
+    private void animationOfFalling(Circle token, int row) {
         TranslateTransition falling = new TranslateTransition(Duration.seconds(0.4), token);
 
         double targetY = row * slotSize + slotSize / 2;
@@ -276,14 +276,12 @@ public class Main extends Application {
                 "-fx-font-family: 'Arial'; -fx-font-weight: bold;");
         playAgainButton.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
             e.consume();
-            resetGame();
             resetGUI();
         });
 
         playAgainButton.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER) {
                 e.consume();
-                resetGame();
                 resetGUI();
             }
         });
@@ -317,6 +315,7 @@ public class Main extends Application {
         keybInputEnabled = true;
         selectedColumn = 0;
         updateKSelectedColumn();
+        resetGame();
     }
 
     private void changeStatusLable(Optional<Integer> player, Optional<String> event, Optional<Integer> column) {
@@ -343,8 +342,6 @@ public class Main extends Application {
             statusLabel.setStyle(currentStyle);
             statusLabel.setText(event.get());
         }
-
-        return;
     }
 
     public static void main(String[] args) {
